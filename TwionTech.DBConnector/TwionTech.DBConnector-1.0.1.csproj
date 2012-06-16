@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TwionTech.DBConnector</RootNamespace>
-    <AssemblyName>TwionTech.DBConnector-1.0.0</AssemblyName>
+    <AssemblyName>TwionTech.DBConnector-1.0.1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\TwionTech.DBConnector-1.0.0.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\TwionTech.DBConnector-1.0.1.xml</DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>

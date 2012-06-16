@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Data;
 using System;
 
 namespace TwionTech
@@ -34,6 +35,14 @@ namespace TwionTech
                         ((SQLiteConnection)CLink).Open();
                         CCommand = new SQLiteCommand("", (SQLiteConnection)CLink);
                         break;
+                }
+            }
+
+            public int cType
+            {
+                get
+                {
+                    return CType;
                 }
             }
 
@@ -111,9 +120,23 @@ namespace TwionTech
                     case 0:
                         return new DBReader(0, ((MySqlCommand)CCommand).ExecuteReader());
                     case 1:
-                        return new DBReader(0, ((SqlCommand)CCommand).ExecuteReader());
+                        return new DBReader(1, ((SqlCommand)CCommand).ExecuteReader());
                     case 2:
-                        return new DBReader(0, ((SQLiteCommand)CCommand).ExecuteReader());
+                        return new DBReader(2, ((SQLiteCommand)CCommand).ExecuteReader());
+                }
+                return null;
+            }
+
+            public DBAdapter GetAdapter()
+            {
+                switch (CType)
+                {
+                    case 0:
+                        return new DBAdapter(0, (MySqlConnection)CLink, ((MySqlCommand)CCommand).CommandText);
+                    case 1:
+                        return new DBAdapter(1, (SqlConnection)CLink, ((SqlCommand)CCommand).CommandText);
+                    case 2:
+                        return new DBAdapter(2, (SQLiteConnection)CLink, ((SQLiteCommand)CCommand).CommandText);
                 }
                 return null;
             }
@@ -228,6 +251,90 @@ namespace TwionTech
                 }
                 GC.SuppressFinalize(this);
             }
+        }
+
+        public class DBAdapter
+        {
+            private object cLink = null;
+            private object Adapter = null;
+            private int? cType = null;
+            
+            public DBAdapter(int cType, object cLink,string Query)
+            {
+                this.cType = cType;
+                this.cLink = cLink;
+
+                switch (cType)
+                {
+                    case 0:
+                        Adapter = new MySqlDataAdapter(Query, (MySqlConnection)cLink);
+                        break;
+                    case 1:
+                        Adapter = new SqlDataAdapter(Query, (SqlConnection)cLink);
+                        break;
+                    case 2:
+                        Adapter = new SQLiteDataAdapter(Query, (SQLiteConnection)cLink);
+                        break;
+                }
+            }
+
+            public int Fill(DataTable DT)
+            {
+                switch (cType)
+                {
+                    case 0:
+                        return ((MySqlDataAdapter)Adapter).Fill(DT);
+                    case 1:
+                        return ((SqlDataAdapter)Adapter).Fill(DT);
+                    case 2:
+                        return ((SQLiteDataAdapter)Adapter).Fill(DT);
+                }
+                return 0;
+            }
+
+            public int Fill(DataSet DS)
+            {
+                switch (cType)
+                {
+                    case 0:
+                        return ((MySqlDataAdapter)Adapter).Fill(DS);
+                    case 1:
+                        return ((SqlDataAdapter)Adapter).Fill(DS);
+                    case 2:
+                        return ((SQLiteDataAdapter)Adapter).Fill(DS);
+                }
+                return 0;
+            }
+
+            public int Update(DataTable DT)
+            {
+                switch (cType)
+                {
+                    case 0:
+                        return ((MySqlDataAdapter)Adapter).Update(DT);
+                    case 1:
+                        return ((SqlDataAdapter)Adapter).Update(DT);
+                    case 2:
+                        return ((SQLiteDataAdapter)Adapter).Update(DT);
+                }
+                return 0;
+            }
+
+            public int Update(DataSet DS)
+            {
+                switch (cType)
+                {
+                    case 0:
+                        return ((MySqlDataAdapter)Adapter).Update(DS);
+                    case 1:
+                        return ((SqlDataAdapter)Adapter).Update(DS);
+                    case 2:
+                        return ((SQLiteDataAdapter)Adapter).Update(DS);
+                }
+                return 0;
+            }
+
+
         }
     }
 }
