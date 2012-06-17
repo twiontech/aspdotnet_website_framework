@@ -14,24 +14,24 @@ namespace TwionTech
             private object CCommand = null;
             private int CType;
 
-            public DB(int type, string Host, string DataBase, string User, string Password)
+            public DB(int type, string ConnectionString)
             {
                 CType = type;
 
                 switch (CType)
                 {
                     case 0:
-                        CLink = new MySqlConnection("data source=" + Host + ";DATABASE=" + DataBase + ";UID=" + User + ";PWD=" + Password);
+                        CLink = new MySqlConnection(ConnectionString);
                         ((MySqlConnection)CLink).Open();
                         CCommand = new MySqlCommand("", (MySqlConnection)CLink);
                         break;
                     case 1:
-                        CLink = new SqlConnection("data source=" + Host + ";DATABASE=" + DataBase + ";UID=" + User + ";PWD=" + Password);
+                        CLink = new SqlConnection(ConnectionString);
                         ((SqlConnection)CLink).Open();
                         CCommand = new SqlCommand("", (SqlConnection)CLink);
                         break;
                     case 2:
-                        CLink = new SQLiteConnection("data source=" + Host);
+                        CLink = new SQLiteConnection(ConnectionString);
                         ((SQLiteConnection)CLink).Open();
                         CCommand = new SQLiteCommand("", (SQLiteConnection)CLink);
                         break;
